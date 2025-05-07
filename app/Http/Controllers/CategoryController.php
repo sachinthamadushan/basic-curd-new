@@ -71,7 +71,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'category' => 'required'
+        ]);
+        $category = Category::findOrFail($id);
+        $category->update($request->all());
+        return redirect()->route('category.index')->
+        with('success','Category updated successfully');
     }
 
     /**
@@ -79,6 +85,9 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return redirect()->route('category.index')->with('success',
+            'Category deleted successfully');
     }
 }
