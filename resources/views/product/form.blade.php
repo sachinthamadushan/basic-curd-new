@@ -5,13 +5,13 @@
     <div class="card-body">
         <div class="row">
             <div class="p-2">
-                <input name="product_no" class="form-control" type="text" placeholder="Product No">
+                <input value="{{old('product_no',$product->product_no ?? "")}}" name="product_no" class="form-control" type="text" placeholder="Product No">
             </div>
             <div class="p-2">
-                <input name="product_name" class="form-control"  type="text" placeholder="Product Name">
+                <input value="{{old('product_name',$product->product_name ?? "")}}" name="product_name" class="form-control"  type="text" placeholder="Product Name">
             </div>
             <div class="p-2">
-                <input name="unit_price" class="form-control" type="number" placeholder="Unit Price">
+                <input value="{{old('unit_price',$product->unit_price ?? "")}}" name="unit_price" class="form-control" type="number" placeholder="Unit Price">
             </div>
             <div class="p-2">
                 <label class="form-label">Choose Image</label>

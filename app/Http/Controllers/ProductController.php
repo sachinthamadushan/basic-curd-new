@@ -83,7 +83,33 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        $request->validate([
+            'product_no' => 'required',
+            'product_name' => 'required',
+            'unit_price' => 'required|numeric',
+            'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        $imagePath = null;
+
+        if ($request->hasFile('product_image')) {
+            $imagePath = $request->file('product_image')->
+            store('products', 'public');
+        }
+
+        $product->update([
+            'product_no' => $request->product_no,
+            'product_name' => $request->product_name,
+            'unit_price' => $request->unit_price,
+            'category_id' => $request->category_id,
+            'product_image' => $imagePath, // Only store the path
+        ]);
+
+        return redirect()->route('product.index')->
+        with('success', 'Product updated successfully');
     }
 
     /**

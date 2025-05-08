@@ -10,6 +10,7 @@
         @include('product.form',
                 [
                     'allCategory'=>$categories,
+                    'productData'=>$product,
                     'cardTitle'=>'Update Product',
                     'btnText'=>'Update Product',
                     'btnColor'=>'warning'
