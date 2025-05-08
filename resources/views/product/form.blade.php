@@ -1,6 +1,6 @@
 <div class="card mt-3">
     <div class="card-header">
-        <h3 class="card-title fw-light">Create Product</h3>
+        <h3 class="card-title fw-light">{{$cardTitle}}</h3>
     </div>
     <div class="card-body">
         <div class="row">
@@ -26,7 +26,7 @@
                 </select>
             </div>
             <div class="p-2">
-                <button type="submit" class="btn btn-primary">Save Product</button>
+                <button type="submit" class="btn btn-{{$btnColor}}">{{$btnText}}</button>
                 <a class="btn btn-danger" href="{{route("product.index")}}">
                     Close
                 </a>

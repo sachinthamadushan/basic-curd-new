@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->string('product_no')->unique();
             $table->string('product_name');
-            $table->decimal('unit_price', 8, 2)->default(0.00);
+            $table->decimal('unit_price', 8, 2)->
+            default(0.00);
             $table->string('product_image')->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->foreignId('category_id')->constrained('categories')
-                ->onDelete('cascade');
+            $table->enum('status', ['active', 'inactive'])->
+            default('active');
+            $table->foreignId('category_id')->
+            constrained('categories')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

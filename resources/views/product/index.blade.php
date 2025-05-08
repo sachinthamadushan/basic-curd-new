@@ -29,6 +29,22 @@
                     <th>Action</th>
                 </tr>
                 </thead>
+                <tbody>
+                    @foreach($products as $p)
+                        <tr>
+                            <td>{{$p->product_no}}</td>
+                            <td>{{$p->product_name}}</td>
+                            <td>{{$p->unit_price}}</td>
+                            <td>{{$p->category->category}}</td>
+                            <td><span class="badge text-bg-success">{{$p->status}}</span></td>
+                            <td>
+                                <a href="{{route('product.show',$p->product_no)}}" class="btn btn-dark">View</a>
+                                <a href="{{route('product.edit',$p->product_no)}}" class="btn btn-warning">Edit</a>
+                                <button class="btn btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </div>

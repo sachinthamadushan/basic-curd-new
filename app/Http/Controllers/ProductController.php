@@ -8,17 +8,14 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        return view('product.index');
+        $products = Product::all();
+        return view('product.index', compact('products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         $categories = Category::all();
@@ -33,19 +30,28 @@ class ProductController extends Controller
         $request->validate([
             'product_no' => 'required',
             'product_name' => 'required',
-            'unit_price' => 'required',
-            'product_image' => 'nullable|image|mimes:jpeg,png,jpg,
-            gif,svg|max:2048',
-            'category_id' => 'required',
+            'unit_price' => 'required|numeric',
+            'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'category_id' => 'required|exists:categories,id',
         ]);
+
+        $imagePath = null;
+
         if ($request->hasFile('product_image')) {
-            $file = $request->file('product_image');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/products'), $filename);
+            $imagePath = $request->file('product_image')->
+            store('products', 'public');
         }
-        Product::create($request->all());
+
+        Product::create([
+            'product_no' => $request->product_no,
+            'product_name' => $request->product_name,
+            'unit_price' => $request->unit_price,
+            'category_id' => $request->category_id,
+            'product_image' => $imagePath, // Only store the path
+        ]);
+
         return redirect()->route('product.index')->
-        with('success', 'Product created successfully.');
+        with('success', 'Product added successfully');
     }
 
     /**
@@ -53,15 +59,23 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $product = Product::with('category')->findOrFail($id);
+        return view('product.view', compact('product'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $product_no)
     {
-        //
+        $categories = Category::all();
+        $product = Product::findOrFail($product_no);
+        return view('product.edit',
+            [
+                'product' => $product,
+                'categories' => $categories
+            ]
+        );
     }
 
     /**
